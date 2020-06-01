@@ -1,4 +1,4 @@
-import {DELETE_MSG, SUBMIT_MSG } from '../actions';
+import {DELETE_MSG, SUBMIT_MSG, CLEAR_LIST } from '../actions';
 
 function generateTime () {
     let date = new Date();
@@ -20,9 +20,12 @@ const messageReducer = (state = initialState, action) => {
     } else if (action.type === SUBMIT_MSG) {
         let newMsg = {
             message: action.msg.message,
-            messageTime: action.msg.messageTime
+            messageTime: generateTime()
         }
         copyArray.push(newMsg);
+        return copyArray;
+    } else if (action.type === CLEAR_LIST) {
+        copyArray = [];
         return copyArray;
     } else {
         return state;

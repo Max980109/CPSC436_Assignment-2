@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { deleteMessage } from "../actions";
+import { clearList } from "../actions";
 
 class MessageList extends React.Component {
   constructor(props) {
@@ -13,11 +14,15 @@ class MessageList extends React.Component {
     this.initialization = this.initialization.bind(this);
     this.createStateArray = this.createStateArray.bind(this);
     this.showDetail = this.showDetail.bind(this);
-    //this.clearList = this.clearList.bind(this);
+    this.clearList = this.clearList.bind(this);
   }
 
   deleteMessage(index) {
     this.props.deleteMessage(index);
+  }
+
+  clearList () {
+    this.props.clearList();
   }
 
   initialization() {
@@ -45,13 +50,7 @@ class MessageList extends React.Component {
     this.setState({ details: details });
   }
 
-//   clearList (event) {
-//       this.props.messageArray = [];
-//       this.setState();
-//   }
-
-
-
+  
   render() {
     this.initialization();
     let messageArray = this.props.messageArray;
@@ -59,13 +58,13 @@ class MessageList extends React.Component {
     for (let index = 0; index < messageArray.length; index++) {
       let temp = (
         <li key={index}>
+           {messageArray[index].message}
           <button className="delete" onClick={() => this.showDetail(index)}>
             Detail
           </button>
           <button className="delete" onClick={() => this.deleteMessage(index)}>
             Delete
           </button>
-          {messageArray[index].message}
           {this.state.details[index] ? (
             <div> created time: {messageArray[index].messageTime}</div>
           ) : null}
@@ -75,8 +74,11 @@ class MessageList extends React.Component {
     }
 
     return (
-        <div id="message_container">
+        <div>
+          <div id="message_container">
           <ul id="message_list">{MessagesTOShow}</ul>
+        </div>
+        <button id = "clear_list" onClick={() => this.clearList()} >Clear List</button>
         </div>
     );
   }
@@ -88,4 +90,4 @@ const mapState = (state) => {
     };
 };
 
-export default connect(mapState, {deleteMessage})(MessageList);
+export default connect(mapState, {deleteMessage,clearList})(MessageList);
