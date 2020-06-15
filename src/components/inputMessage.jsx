@@ -33,7 +33,7 @@ export class InputMessage extends React.Component {
 
     let messageObj = {
       message: this.state.message,
-      ID: Date.now(),
+      messageTime: new Date().toString(),
     };
 
     this.clearMessage();

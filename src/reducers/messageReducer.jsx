@@ -12,7 +12,7 @@ const initialState = [
 ]
 
 const messageReducer = (state = initialState, action) => {
-    let copyArray = [...initialState];
+    let copyArray = state.slice(0);
     if (action.type === DELETE_MSG) {
         copyArray.splice(action.ind, 1);
         return copyArray;
@@ -20,7 +20,7 @@ const messageReducer = (state = initialState, action) => {
     } else if (action.type === SUBMIT_MSG) {
         let newMsg = {
             message: action.msg.message,
-            messageTime: generateTime()
+            messageTime: action.msg.messageTime
         }
         copyArray.push(newMsg);
         return copyArray;

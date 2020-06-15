@@ -29,17 +29,17 @@ class MessageList extends React.Component {
     let flag = this.state.wantToShow;
     
     if (flag) {
-      this.setState({ wantToShow: false });
-      this.createStateArray();
-    } else {
       return null;
+    } else {
+      this.setState({wantToShow: true});
+      this.createStateArray();
     }
   }
 
   createStateArray() {
     let ary = [];
     for (let i = 0; i < this.props.messageArray.length; i++) {
-      ary.push(true);
+      ary.push(false);
     }
     this.setState({ details: ary });
   }
@@ -54,29 +54,19 @@ class MessageList extends React.Component {
   render() {
     this.initialization();
     let messageArray = this.props.messageArray;
-    const MessagesTOShow = [];
-    for (let index = 0; index < messageArray.length; index++) {
-      let temp = (
-        <li key={index}>
-           {messageArray[index].message}
-          <button className="delete" onClick={() => this.showDetail(index)}>
-            Detail
-          </button>
-          <button className="delete" onClick={() => this.deleteMessage(index)}>
-            Delete
-          </button>
-          {this.state.details[index] ? (
-            <div> created time: {messageArray[index].messageTime}</div>
-          ) : null}
-        </li>
-      );
-      MessagesTOShow.push(temp);
-    }
+
+    const MessagesToShow = messageArray.map((messageItem, index) =>
+      <li key={index}>
+        {messageItem.message}
+        <button className='delete' onClick={() => this.showDetail(index)}>Detail</button>
+        <button className='delete' onClick={() => this.deleteMessage(index)}>Delete</button>
+        {this.state.details[index] ? <div> Created at: {messageItem.messageTime} </div> : null}
+      </li>);
 
     return (
         <div>
           <div id="message_container">
-          <ul id="message_list">{MessagesTOShow}</ul>
+          <ul id="message_list">{MessagesToShow}</ul>
         </div>
         <button id = "clear_list" onClick={() => this.clearList()} >Clear List</button>
         </div>
